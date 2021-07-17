@@ -1,4 +1,4 @@
-from db.settings import SQLiteDBSettings
+from src.db.settings import SQLiteDBSettings
 
 configs = [SQLiteDBSettings,]
 

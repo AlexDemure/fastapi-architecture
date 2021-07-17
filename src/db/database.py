@@ -1,8 +1,8 @@
 from tortoise import Tortoise
 
-from core.config import settings
+from src.core.config import settings
 
-MODELS_LIST = ["apps.accounts.models",]
+MODELS_LIST = ["src.apps.accounts.models",]
 
 
 async def sqlite_db_init():
