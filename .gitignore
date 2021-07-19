@@ -5,3 +5,4 @@ db.*
 __pycache__
 */__pycache__
 venv
+fastapi_architecture.egg-info
