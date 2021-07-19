@@ -1,12 +1,10 @@
-from typing import Optional
-
 from src.apps.accounts.models import Account
-from src.schemas.accounts import AccountCreate
+from src.schemas.accounts import AccountCreate, AccountUpdate
+from src.submodules.common.crud import CRUDBase
 
 
-async def get_account_by_id(account_id: int) -> Optional[Account]:
-    return await Account.filter(id=account_id).first()
+class CRUDAccount(CRUDBase[Account, AccountCreate, AccountUpdate]):
+    pass
 
 
-async def create_account(account_create: AccountCreate) -> Account:
-    return await Account.create(**account_create.dict())
+accounts_crud = CRUDAccount(Account)

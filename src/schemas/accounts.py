@@ -3,13 +3,20 @@ from datetime import datetime
 from pydantic import BaseModel, constr
 
 
-class AccountCreate(BaseModel):
+class AccountBase(BaseModel):
     fullname: constr(min_length=1, max_length=255)
 
 
-class AccountData(BaseModel):
+class AccountCreate(AccountBase):
+    pass
+
+
+class AccountUpdate(AccountBase):
+    pass
+
+
+class AccountData(AccountBase):
     id: int
-    fullname: constr(min_length=1, max_length=255)
     created_at: datetime
 
     class Config:
