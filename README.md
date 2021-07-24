@@ -7,7 +7,7 @@
 ### **API**
 В папке API находятся два типа файлов Depends и Routers <br>
 - Depends - функции-зависимости которые выполняются до момента получения данных в Router.
-- Routers - Endpoint-ы которые принимают отвечают за получения данные от клиента.
+- Routers - Endpoint-ы которые принимают данные и валидируют данные от клиента.
 
 **Все файлы именуются по предметной области** <br>
 
@@ -25,7 +25,7 @@
     - schemas.py   # Pydantic-схемы опционально
 
 ### **Core**
-Находятся основные файлы системы которые регулируют работу приложения.
+Находятся основные файлы системы которые регулируют работу приложения. <br>
 В данную папку входит
    
     - config.py  # Все настройки и параметры приложения
@@ -48,14 +48,14 @@
 
 ### **Submodules**
 Изолированные модули системы представляют собой аналогичные папки из Apps.
-
+Могут быть как какие-нибудь исходники, библиотеки и т.д.
 
 ## Как взаимодействуют слои между собой
 **Контроллеры** - Предназначены для валидации входных данных, приема и передачи данных из бизнес слоя.
 - Входные данные - Pydantic объект или примитивные типы
 - Выходные данные - Pydantic объект
 
-> Core/urls.py - Файл для подключения всех router-ов приложения
+> Core > urls.py - Файл для подключения всех router-ов приложения
 
     from src.api.routers.accounts import router as account_router
     
@@ -64,13 +64,13 @@
     api_router.include_router(account_router, tags=["accounts"])
     ...
 
-> Api/Routers/accounts.py - Файл с router для предметной области accounts
+> Api > routers > accounts.py - Файл с router для предметной области accounts
 
     @router.post("/")
     async  def  create_account(account_create:  AccountCreate)  ->  AccountData:
 	    return  await  account_logic.create_account(account_create)
 
-> Api/depends/accounts.py - Набор функций-зависимостей которые работают с accounts
+> Api > depends > accounts.py - Набор функций-зависимостей которые работают с accounts
 
 
 ----
@@ -78,7 +78,7 @@
 - Входные данные - Pydantic объект или примитивные типы
 - Выходные данные - Pydantic объект
 
-> Apps/accounts/logic.py - Файл с бизнес-логикой по работе с accounts
+> Apps > accounts > logic.py - Файл с бизнес-логикой по работе с accounts
 
     async  def  create_account(account_create:  AccountCreate)  ->  AccountData:
 	    account  =  await  accounts_crud.create(account_create)
@@ -89,7 +89,7 @@
 - Входные данные - Pydantic объект или примитивные типы
 - Выходные данные - Объект модели
 
-> Apps/accounts/crud.py - Файл выполнению операций в БД для таблицы Accounts
+> Apps > accounts > crud.py - Файл выполнению операций в БД для таблицы Accounts
 
     async def create(account_create: AccountCreate) -> Account:
         return await Accounts.create(**data.dict())
