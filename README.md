@@ -1,5 +1,5 @@
 
-## Композиция файлов для FastApi приложения
+## Архитектура и композиция файлов в FastApi приложении
 ![](https://habrastorage.org/webt/aq/ck/-d/aqck-dopofu_gkewbmurdj5plgo.jpeg)
 ![enter image description here](https://habrastorage.org/webt/ln/ul/_g/lnul_gxx7h81f8kdhebmlbdue24.png)
 
