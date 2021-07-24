@@ -94,7 +94,7 @@
     async def create(account_create: AccountCreate) -> Account:
         return await Accounts.create(**data.dict())
 
+![](https://habrastorage.org/webt/pu/r-/e7/pur-e7zc4o4_s-lol43qmsu0mfm.png)
 
-
-###  Данная композиция файлов была внедрена и протестирована на нескольких коммерческих проектов.
+####  Данная композиция файлов была внедрена и протестирована на нескольких коммерческих проектов.
 
