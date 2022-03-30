@@ -13,3 +13,13 @@ class UpdatedBase(BaseModel):
 
 class Message(BaseModel):
     msg: str
+
+
+class DetailError(BaseModel):
+    msg: str
+    type: str
+
+
+class MessageErrorSchema(BaseModel):
+
+    detail: DetailError

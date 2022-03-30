@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, PostgresDsn, validator
+from pydantic import BaseSettings
 
 
 class SQLiteDBSettings(BaseSettings):

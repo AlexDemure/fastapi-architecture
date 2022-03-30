@@ -1,10 +1,6 @@
 from enum import Enum
 
 
-class BaseSystemErrors(Enum):
-    schema_wrong_format = "Schema is wrong format"
-
-
 class BaseMessage(Enum):
     obj_is_created = "Object is created."
     obj_already_exist = "Object already exist."

@@ -1,6 +1,7 @@
 from enum import Enum
 
 
-class AccountErrors(Enum):
+class AccountType(Enum):
 
-    account_not_found = "Account is not found."
+    entity = "Entity"
+    individual = "Individual"

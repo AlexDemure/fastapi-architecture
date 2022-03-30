@@ -1,10 +1,13 @@
 from datetime import datetime
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, Field
+
+from src.enums.accounts import AccountType
 
 
 class AccountBase(BaseModel):
-    fullname: constr(min_length=1, max_length=255)
+    fullname: str = Field(min_length=1, max_length=255)
+    account_type: AccountType
 
 
 class AccountCreate(AccountBase):
