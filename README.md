@@ -105,7 +105,7 @@ async def get_account_by_id_request(account_id: int) -> AccountData:
 - Прием данных
 - Отдача данных
 
-### **Logic | Servives**
+### **Logic | Servises**
 - Принимают данные из слоя Routes
 - Делают бизнес-проверки (например наличие пользователя по ID)
 - Поднимают HTTP исключения
