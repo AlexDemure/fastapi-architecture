@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "poetry"
+version = "0.1.0"
+description = ""
+authors = [""]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.100"
+uvicorn = "^0.23"
+alembic = "^1.11"
+python-dotenv = "^1.0"  # pydantic[dotenv]
+pydantic-settings = "^2.0.2"
+sqlalchemy = "^2.0"
+structlog = "^23"
+aiologger = "^0.7"
+asyncpg = "^0.28.0"
+httpx = "^0.24.1"
+python-jose = "^3.3.0"
+ciso8601 = "^2.3.0"
+graypy = "^2.1.0"
+sentry-sdk = "^1.29.2"
+opentelemetry-sdk = "^1.19.0"
+opentelemetry-api = "^1.19.0"
+opentelemetry-exporter-otlp-proto-grpc = "^1.19.0"
+
+[tool.poetry.group.lints]
+optional = true
+
+[tool.poetry.group.lints.dependencies]
+black = "^23.1"
+mypy = "1.4.1"
+flake8 = "^6.0"
+isort = "^5.12"
+
+[tool.poetry.group.tests]
+optional = true
+
+[tool.poetry.group.tests.dependencies]
+pytest = "^7"
+pytest-asyncio = "^0.21"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120

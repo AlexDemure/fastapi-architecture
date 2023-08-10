@@ -1,100 +1,79 @@
+# 🧁 Service
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi) ![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-## Архитектура и композиция файлов в FastApi приложении
-![](https://habrastorage.org/webt/aq/ck/-d/aqck-dopofu_gkewbmurdj5plgo.jpeg)
-![enter image description here](https://habrastorage.org/webt/ln/ul/_g/lnul_gxx7h81f8kdhebmlbdue24.png)
+## 📝 Table of Contents
+- [About](#thinking-about)
+- [Architecture](#hamburger-architecture)
+- [Getting Started](#rocket-getting-started)
+    -  [Settings docker, docker-compose](#settings-docker-docker-compose)
+    -  [Virtual environment](#virtual-environment)
+    -  [Environment files](#environment-files)
+    -  [Launch](#launch)
+- [Testing](#robot-testing)
+- [Formatting](#leftwards_arrow_with_hook-formatting)
+- [Stands](#key-stands)
+- [Tools](#hammer_and_pick-tools)
+- [Owner](#writing_hand-owner)
+- [TODO](#todo)
 
-## Описание папок и файлов
-### **API**
-В папке API находятся два типа файлов Depends и Routers <br>
-- Depends - функции-зависимости которые выполняются до момента получения данных в Router.
-- Routers - Endpoint-ы которые принимают данные и валидируют данные от клиента.
+## :thinking: About
+**[Small description of the service]**
 
-**Все файлы именуются по предметной области** <br>
+## :hamburger: Architecture
+**[Optional block, you can insert a statement from the analytics]**
 
-### **Apps** 
-Взято из практики Django Apps. В данной папке находятся модули системы разделенные на предметные области.
-> Apps/accounts - Папка с файлами которая отвечает за модуль системы работающий с accounts
+## :rocket: Getting Started
 
-В данную папку входит
+#### Settings docker, docker-compose
+Set up docker, docker-compose to execute commands
 
-    - logic.py  # Работа с бизнес-логикой
-    - crud.py  # Работа с БД
-    - models.py  # Схема БД
-    - utils.py
-    - enums.py  # опционально
-    - schemas.py   # Pydantic-схемы опционально
+#### Virtual environment
+```
+# What virtual environment is needed
 
-### **Core**
-Находятся основные файлы системы которые регулируют работу приложения. <br>
-В данную папку входит
-   
-    - config.py  # Все настройки и параметры приложения
-    - main.py  # Главный модуль приложения FastApi object
-    - middleware.py
-    - scheduler.py  # CRON задачи приложения
-    - urls.py
+# How to install dependencies
+```
 
-### **DB**
-Находятся конфигурационные параметры и настройки БД
-### **Enums**
-Выделены отдельной папкой на практике показало более удобное использование Enums и переиспользование их в других модулях.
-Для опрд. систем enum можно выделить в самом App. <br>
-**Все файлы именуются по предметной области** <br>
+#### Environment files
+```
+# What files need to be created
+```
 
-### **Schemas**
-Выделены отдельной папкой на практике показало более удобное использование Schemas и переиспользование их в других модулях.
-Для опрд. систем schemas можно выделить в самом App. <br>
-**Все файлы именуются по предметной области** <br>
+#### Launch
+```
+# How to launch the application
+```
 
-### **Submodules**
-Изолированные модули системы представляют собой аналогичные папки из Apps.
-Могут быть как какие-нибудь исходники, библиотеки и т.д.
+## :robot: Testing
+```
+# How to test the application
+```
 
-## Как взаимодействуют слои между собой
-**Контроллеры** - Предназначены для валидации входных данных, приема и передачи данных из бизнес слоя.
-- Входные данные - Pydantic объект или примитивные типы
-- Выходные данные - Pydantic объект
+### :leftwards_arrow_with_hook: Formatting
+```
+# How to run scripts to format code
+```
 
-> Core > urls.py - Файл для подключения всех router-ов приложения
-
-    from src.api.routers.accounts import router as account_router
-    
-    api_router = APIRouter()
-    
-    api_router.include_router(account_router, tags=["accounts"])
-    ...
-
-> Api > routers > accounts.py - Файл с router для предметной области accounts
-
-    @router.post("/")
-    async  def  create_account(account_create:  AccountCreate)  ->  AccountData:
-	    return  await  account_logic.create_account(account_create)
-
-> Api > depends > accounts.py - Набор функций-зависимостей которые работают с accounts
+## :key: Stands
+| Type | Address | SSH |
+| ------------- | ------------- | ------------- |
+| Production | **[url]/docs** | ```ssh user@{{ip}}``` |
+| Develop | **[url]/docs** | ```ssh user@{{ip}}``` |
 
 
-----
-**Бизнес-логика** - Предназначена для работы с бизнес-задачами, внутренними процессами системы, приемом и передачей данных из слоя по работе с БД.
-- Входные данные - Pydantic объект или примитивные типы
-- Выходные данные - Pydantic объект
+## :hammer_and_pick: Tools
+**Fill in the format [Link] else -**
+| Название  | Production | Develop | Comment |
+| ------------- | ------------- | ------------- | ------------- |
+| Sentry  | - | - |
+| Jaeger  | -  | - | Services: **[service_name]**
+| Graylog | - | - | **[how searching logs]**
+| Grafana | - | -
+| Airbyte | - | -
+| kowl | - | - | ```[List topics]```
 
-> Apps > accounts > logic.py - Файл с бизнес-логикой по работе с accounts
+## :writing_hand: Owner
+**&#169;[Owner name]**
 
-    async  def  create_account(account_create:  AccountCreate)  ->  AccountData:
-	    account  =  await  accounts_crud.create(account_create)
-	    return  AccountData.from_orm(account)
-
-----
-**Доступ к данным БД** - Предназначен для работы выполнения операций в БД.
-- Входные данные - Pydantic объект или примитивные типы
-- Выходные данные - Объект модели
-
-> Apps > accounts > crud.py - Файл выполнению операций в БД для таблицы Accounts
-
-    async def create(account_create: AccountCreate) -> Account:
-        return await Accounts.create(**data.dict())
-
-![](https://habrastorage.org/webt/pu/r-/e7/pur-e7zc4o4_s-lol43qmsu0mfm.png)
-
-####  Данная композиция файлов была внедрена и протестирована на нескольких коммерческих проектов.
-
+## TODO
+- [-] [Dev] ...

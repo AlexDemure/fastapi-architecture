@@ -1,9 +1,3 @@
-sqlite
-db.*
-*.sqlite3
-*.sql
-__pycache__
-*/__pycache__
-venv
-fastapi_architecture.egg-info
-.idea
+.venv
+.env
+pgdata
