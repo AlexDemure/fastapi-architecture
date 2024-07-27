@@ -1,0 +1,60 @@
+exclude = [
+    ".ruff_cache",
+    ".venv",
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    "pyproject.toml"
+]
+include = ["*.py"]
+respect-gitignore = true
+show-fixes = true
+line-length = 120
+indent-width = 4
+target-version = "py310"
+
+[lint.extend-per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+
+[lint.flake8-annotations]
+# Не содержать returnзаявлений.
+# Все явные return операторы возвращают результат None(явно или неявно).
+suppress-none-returning = true
+
+[lint.flake8-bandit]
+# Запретить try- except- pass( S110) для определенных типов исключений.
+# По умолчанию try- except- pass запрещено только для Exceptionи BaseException.
+check-typed-exception = true
+
+[lint.flake8-pytest-style]
+fixture-parentheses = true
+mark-parentheses = true
+
+[lint.flake8-quotes]
+avoid-escape = true
+docstring-quotes = "double"
+inline-quotes = "double"
+multiline-quotes = "double"
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[format]
+docstring-code-format = false
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false
+
+[lint.isort]
+case-sensitive = true
+combine-as-imports = false
+force-single-line = true
+from-first = false
+length-sort = true
+lines-after-imports = 1
+lines-between-types = 1
+no-sections = false
+order-by-type = true
+split-on-trailing-comma = false

@@ -1,112 +1,58 @@
-version: '3.3'
+version: "3.8"
 
 volumes:
-  pgdata:
+  .volumes:
 
 services:
-  api:
-    build: .
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "4000:4000"
-    depends_on:
-      - db
-    network_mode: host
-
-  db:
-    image: postgres:13.2
+  postgres:
+    image: postgres:16
     container_name: postgres
-    command: [ "postgres", ]
-    env_file:
-      - .env
-    ports:
-      - "54320:5432"
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
+    hostname: postgres
     restart: always
-
-  zookeeper:
-    image: "confluentinc/cp-zookeeper"
-    hostname: zookeeper
-    container_name: zookeeper
     ports:
-      - 2181:2181
-    environment:
-      - ZOOKEEPER_CLIENT_PORT=2181
-
-  kafka:
-    image: confluentinc/cp-kafka
-    hostname: kafka
-    container_name: kafka
-    ports:
-      - 9092:9092
-    depends_on:
-      - zookeeper
-    environment:
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:29092,EXTERNAL://localhost:9092
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
-
-  kowl:
-    image: quay.io/cloudhut/kowl:v1.4.0
-    restart: on-failure
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - ./kowl:/etc/kowl/
-    ports:
-      - "8080:8080"
-    entrypoint: ./kowl --config.filepath=/etc/kowl/config.yaml
-    depends_on:
-      - kafka
-
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "4317:4317"
-      - "4318:4318"
-      - "16686:16686"
+      - ./.volumes/pgdata:/var/lib/postgresql/data
     environment:
-      - COLLECTOR_OTLP_ENABLED=true
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+    command: ["postgres", "-c", "log_statement=all"]
 
-  mongodb:
-    image: mongo:3
-
-  elasticsearch:
-    image: docker.io/elastic/elasticsearch:7.7.1
-    environment:
-      - http.host=0.0.0.0
-      - transport.host=localhost
-      - network.host=0.0.0.0
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-
-  graylog:
-    image: graylog/graylog:4.3
-    environment:
-      - GRAYLOG_PASSWORD_SECRET=forpasswordencryption
-      # Login: admin
-      # Password: admin
-      - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-      - GRAYLOG_HTTP_BIND_ADDRESS=0.0.0.0:7555
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://192.168.10.152:7555/
-      - GRAYLOG_TRANSPORT_SUBJECT_PREFIX=[graylog]
-    links:
-      - mongodb:mongo
-      - elasticsearch
-    depends_on:
-      - mongodb
-      - elasticsearch
+  mongo:
+    image: bitnami/mongodb:latest
+    container_name: mongo
+    hostname: mongo
+    restart: always
     ports:
-      # Graylog web interface and REST API
-      - 7555:7555
-      # Syslog TCP
-      - 8514:8514
-      # GELF TCP
-      - 12201:12201
-      # GELF UDP
-      - 12201:12201/udp
+      - ${MONGO_PORT}:${MONGO_PORT}
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+      MONGODB_REPLICA_SET_MODE: "primary"
+      MONGODB_REPLICA_SET_KEY: "replicaset"
+      MONGODB_ADVERTISED_HOSTNAME: ${MONGO_HOST}
+      MONGODB_ADVERTISED_PORT_NUMBER: ${MONGO_PORT}
+      MONGODB_ROOT_USER: ${MONGO_ROOT_USER}
+      MONGODB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGODB_USERNAME: ${MONGO_USER}
+      MONGODB_PASSWORD: ${MONGO_PASSWORD}
+      MONGODB_DATABASE: ${MONGO_DB}
+      MONGO_HOST: ${MONGO_HOST}
+      MONGO_PORT: ${MONGO_PORT}
+    volumes:
+      - ./.volumes/mongodata:/data/db
+
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: ${S3_LOGIN}
+      MINIO_ROOT_PASSWORD: ${S3_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./.volumes/miniodata:/data
+    command: server --console-address ":9001" /data
